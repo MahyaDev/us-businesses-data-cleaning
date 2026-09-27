@@ -1,14 +1,29 @@
 # Data Cleaning & EDA of U.S. Business Dataset
 
-![Python](https://img.shields.io/badge/Python-3.14-blue?logo=python)
-![Pandas](https://img.shields.io/badge/Pandas-3.0.5-150458?logo=pandas)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-3.11.1-11557C?logo=matplotlib&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-2.5.1-013243?logo=numpy)
-![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange?logo=jupyter)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=flat-square&logo=matplotlib&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square&logo=jupyter&logoColor=white)
+![Tests](https://github.com/MahyaDev/us-businesses-data-cleaning/actions/workflows/ci.yml/badge.svg)
 
 A portfolio project demonstrating a structured and reproducible data-cleaning workflow and exploratory data analysis (EDA) on a sample of U.S. business records. The project uses **Python** and **Pandas** to clean, validate, and analyze the dataset.
 
 The cleaning and validation logic is separated into a reusable Python package while the complete workflow is documented in Jupyter Notebooks.
+
+## Table of Contents
+
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Cleaning Results](#cleaning-results)
+- [Key Findings](#key-findings)
+- [Validation](#validation)
+- [Installation](#installation)
+- [Required Datasets](#required-datasets)
+- [Running the Project](#running-the-project)
+- [Testing](#testing)
+- [Design Decisions](#design-decisions)
+- [Data Sources](#data-sources)
 
 ## Project Structure
 
@@ -38,7 +53,9 @@ project/
 │       ├── __init__.py
 │       ├── constants.py
 │       └── functions.py
-├── requirements.txt
+├── tests/
+│   └── test_functions.py
+├── pyproject.toml
 └── README.md
 ```
 
@@ -170,24 +187,55 @@ Records are classified as one of three categories:
 
 ## Installation
 
-Clone the repository:
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/MahyaDev/us-businesses-data-cleaning.git
+cd us-businesses-data-cleaning
 ```
 
-Install the required dependencies:
+### 2. Create a virtual environment
 
 ```bash
-pip install -r requirements.txt
+python -m venv .venv
 ```
+
+### 3. Activate the virtual environment
+
+**Windows (Command Prompt):**
+
+```bat
+.venv\Scripts\activate.bat
+```
+
+**Windows (PowerShell):**
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+**macOS / Linux:**
+
+```bash
+source .venv/bin/activate
+```
+
+### 4. Install dependencies
+
+```bash
+python -m pip install -e ".[dev]"
+```
+
+> The development dependencies include the tools required for testing and working with the Jupyter Notebooks.
 
 ### Requirements
 
-* Python 3.14+
-* pandas 3.0.5+
-* numpy 2.5.1+
-* matplotlib 3.11.1+
+- Python 3.11+
+- pandas
+- NumPy
+- Matplotlib
+- Jupyter
+- pytest
 
 ## Required Datasets
 
@@ -229,6 +277,16 @@ Source: [ZIP-Codes.com](https://www.zip-codes.com/)
    - `notebooks/02_eda.ipynb`
 
 4. The cleaned dataset will be exported to `data/processed/cleaned_us_businesses.csv`.
+
+## Testing
+
+Run the test suite with:
+
+```bash
+pytest
+```
+
+The tests cover the reusable data-cleaning and validation functions in `src/data_cleaner/`.
 
 ## Design Decisions
 
