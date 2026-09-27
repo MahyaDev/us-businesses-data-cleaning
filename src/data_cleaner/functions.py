@@ -18,10 +18,9 @@ def clean_state_postal_abbr(value: str | None) -> str:
     if value in US_STATES_POSTAL_ABBR.keys():
         return value
 
-    elif value in US_STATES_POSTAL_ABBR.values():
-        for abbr, state_name in US_STATES_POSTAL_ABBR.items():
-            if state_name.upper() == value:
-                return abbr
+    for abbr, state_name in US_STATES_POSTAL_ABBR.items():
+        if state_name.upper() == value:
+            return abbr
 
     return np.nan
 
@@ -30,6 +29,8 @@ def clean_business_type(value: str | None) -> str:
         return np.nan
 
     value = str(value).upper().strip()
+
+    value = re.sub(r'\s+', ' ', value)
 
     value = re.sub(r'\s*\.\s*', '', value)
 
@@ -43,6 +44,9 @@ def clean_us_city(value: str | None) -> str:
         return np.nan
 
     value = str(value).strip().upper()
+
+    if not value:
+        return np.nan
 
     value = re.sub(r'\s+', ' ', value)
 
@@ -93,14 +97,26 @@ def clean_us_city(value: str | None) -> str:
 
     return value
 
-def clean_zip_code(zip_code: float | int | None) -> str | float:
+def clean_zip_code(zip_code: str | float | int | None) -> str | float:
     if pd.isna(zip_code):
+        return np.nan
+
+    if isinstance(zip_code, str):
+        zip_code = zip_code.strip()
+
+        if not zip_code:
+            return np.nan
+
+    if isinstance(zip_code, float) and not zip_code.is_integer():
+        return np.nan
+
+    try:
+        zip_code = str(int(zip_code))
+    except (ValueError, TypeError):
         return np.nan
 
     if zip_code == 0:
         return np.nan
-
-    zip_code = str(int(zip_code))
 
     if len(zip_code) == 4:
         zip_code = zip_code.zfill(5)
@@ -169,16 +185,22 @@ def clean_address(value):
 
     value = value.strip()
 
+    if not value:
+        return np.nan
+
     words = value.split(' ')
     expanded_words = []
 
     for word in words:
-        if word in STREET_SUFFIX_ABBR:
-            expanded_words.append(STREET_SUFFIX_ABBR[word])
-        elif word in SECONDARY_UNIT_DESIGNATORS:
-            expanded_words.append(SECONDARY_UNIT_DESIGNATORS[word])
-        else:
-            expanded_words.append(word)
+        has_comma = word.endswith(",")
+        core = word.rstrip(",")
+
+        if core in STREET_SUFFIX_ABBR:
+            core = STREET_SUFFIX_ABBR[core]
+        elif core in SECONDARY_UNIT_DESIGNATORS:
+            core = SECONDARY_UNIT_DESIGNATORS[core]
+
+        expanded_words.append(core + ("," if has_comma else ""))
 
     value = ' '.join(expanded_words)
 
@@ -200,6 +222,11 @@ def clean_business_name(value):
         return np.nan
 
     value = str(value).strip().upper()
+
+    if not value:
+        return np.nan
+
+    value = re.sub(r'\s*\,\s*', ', ', value)
 
     value = re.sub(r'\s+', ' ', value)
 

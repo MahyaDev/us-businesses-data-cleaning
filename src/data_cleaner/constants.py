@@ -307,21 +307,21 @@ SECONDARY_UNIT_DESIGNATORS = {
 
 ENTITY_TYPES = {
     r'\bLIMITED LIABILITY COMPANY\b': 'LLC',
-    r'\bL\.L\.C\.?\b': 'LLC',
-    r'\bLLC\.?\b': 'LLC',
+    r'\bL\.L\.C\.?(?=\W|$)': 'LLC',
+    r'\bLLC\.?(?=\W|$)': 'LLC',
 
     r'\bINCORPORATED\b': 'INC',
-    r'\bI\.N\.C\.?\b': 'INC',
-    r'\bINC\.?\b': 'INC',
+    r'\bI\.N\.C\.?(?=\W|$)': 'INC',
+    r'\bINC\.?(?=\W|$)': 'INC',
 
     r'\bCORPORATION\b': 'CORP',
-    r'\bCORP\.?\b': 'CORP',
-
-    r'\bLIMITED PARTNERSHIP\b': 'LP',
-    r'\bL\.P\.?\b': 'LP',
-    r'\bLP\.?\b': 'LP',
+    r'\bCORP\.?(?=\W|$)': 'CORP',
 
     r'\bLIMITED LIABILITY PARTNERSHIP\b': 'LLP',
-    r'\bL\.L\.P\.?\b': 'LLP',
-    r'\bLLP\.?\b': 'LLP',
+    r'\bL\.L\.P\.?(?=\W|$)': 'LLP',
+    r'\bLLP\.?(?=\W|$)': 'LLP',
+
+    r'\bLIMITED PARTNERSHIP\b': 'LP',
+    r'\bL\.P\.?(?=\W|$)': 'LP',
+    r'\bLP\.?(?=\W|$)': 'LP'
 }
